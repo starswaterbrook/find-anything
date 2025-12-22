@@ -3,7 +3,7 @@ requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "find_anything"
+name = "find-anything"
 version = "1.0.0"
 authors = [
     { name = "Maciej Kmieć" }
