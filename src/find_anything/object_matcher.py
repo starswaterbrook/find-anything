@@ -4,6 +4,7 @@ from PIL import Image
 from find_anything.embedding_repository import EmbeddingRepository
 from find_anything.feature_encoder import FeatureEncoder
 from find_anything.mask import MaskGenerator, MaskPooler, MaskSelector
+from find_anything.models import MatcherResult
 
 
 class ZeroShotObjectMatcher:
@@ -27,7 +28,7 @@ class ZeroShotObjectMatcher:
         self.base_embeddings.add_images(image_paths)
 
     @torch.no_grad()
-    def forward(self, target_image_path: str) -> list[dict]:
+    def forward(self, target_image_path: str) -> list[MatcherResult]:
         target_image = Image.open(target_image_path).convert("RGB")
         dense_features = self.encoder.encode_dense(target_image)
 
@@ -44,7 +45,7 @@ class ZeroShotObjectMatcher:
             return []
 
         patch_embeddings = self.encoder.encode_patches(
-            [m.mask for m in top_mask_embeddings], target_image
+            torch.stack([m.mask for m in top_mask_embeddings]), target_image
         )
 
         embeddings_tensor = torch.stack(list(patch_embeddings.values()))
@@ -57,12 +58,12 @@ class ZeroShotObjectMatcher:
             if sim.item() >= self.threshold:
                 mask_obj = top_mask_embeddings[i]
                 matches.append(
-                    {
-                        "mask_id": i,
-                        "mask": mask_obj.mask,
-                        "similarity": sim.item(),
-                        "matched_base": int(best_idx[i].item()),
-                    }
+                    MatcherResult(
+                        mask_id=i,
+                        mask=mask_obj.mask,
+                        similarity=sim.item(),
+                        matched_base=int(best_idx[i].item()),
+                    )
                 )
 
         return matches
