@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 
+
 # utility for getting image paths for a specific dir structure
 # objects /
 #         <object_name> /
@@ -9,16 +10,16 @@ from pathlib import Path
 def get_object_image_paths(object_name: str, kind: str = "ref") -> list[str]:
     allowed = {"ref", "target"}
     if kind not in allowed:
-        raise ValueError(f"kind must be one of {allowed}, got {kind}")
+        raise ValueError(f"kind must be one of {allowed}, got {kind}")  # noqa: TRY003, EM102
 
     base = Path("objects") / object_name
     if not base.exists() or not base.is_dir():
-        raise FileNotFoundError(f"Object folder not found: {base}")
+        raise FileNotFoundError(f"Object folder not found: {base}")  # noqa: TRY003, EM102
 
     exts = {".jpg", ".jpeg", ".png", ".bmp", ".tif", ".tiff"}
     out: list[str] = []
 
-    def _collect(dirpath: Path):
+    def _collect(dirpath: Path) -> None:
         if not dirpath.exists() or not dirpath.is_dir():
             return
         for p in sorted(dirpath.iterdir()):
