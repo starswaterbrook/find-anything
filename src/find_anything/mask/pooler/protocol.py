@@ -2,7 +2,7 @@ from typing import Protocol
 
 import torch
 
-from find_anything.mask.models import MaskEmbedding
+from find_anything.models import MaskEmbedding
 
 
 class MaskPooler(Protocol):

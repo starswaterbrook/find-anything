@@ -1,8 +1,8 @@
 import torch
 
 from find_anything.embedding_repository.base import BaseEmbeddingRepository
-from find_anything.mask.models import MaskEmbedding
 from find_anything.mask.selector.protocol import MaskSelector
+from find_anything.models import MaskEmbedding
 
 
 class TopKMaskSelector(MaskSelector):

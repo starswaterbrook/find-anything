@@ -1,8 +1,8 @@
 import torch
 import torch.nn.functional as F
 
-from find_anything.mask.models import MaskEmbedding
 from find_anything.mask.pooler.protocol import MaskPooler
+from find_anything.models import MaskEmbedding
 
 
 class DenseFeatureMaskPooler(MaskPooler):
