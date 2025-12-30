@@ -27,9 +27,11 @@ class ZeroShotObjectMatcher:
     def set_base_images(self, image_paths: list[str]) -> None:
         self.base_embeddings.add_images(image_paths)
 
+    def _open_image(self, image_path: str) -> Image.Image:
+        return Image.open(image_path).convert("RGB")
+
     @torch.no_grad()
-    def forward(self, target_image_path: str) -> list[MatcherResult]:
-        target_image = Image.open(target_image_path).convert("RGB")
+    def _forward(self, target_image: Image.Image) -> list[MatcherResult]:
         dense_features = self.encoder.encode_dense(target_image)
 
         masks = self.mask_generator.generate(target_image)
@@ -67,3 +69,12 @@ class ZeroShotObjectMatcher:
                 )
 
         return matches
+
+    @torch.no_grad()
+    def forward_from_path(self, target_image_path: str) -> list[MatcherResult]:
+        target_image = self._open_image(target_image_path)
+        return self._forward(target_image)
+
+    @torch.no_grad()
+    def forward_from_image(self, target_image: Image.Image) -> list[MatcherResult]:
+        return self._forward(target_image)

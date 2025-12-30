@@ -20,5 +20,13 @@ class BaseEmbeddingRepository(EmbeddingRepository):
             embeddings.append(emb)
         self._embeddings = torch.cat(embeddings, dim=0)
 
+    def add_images_binary(self, images: list[Image.Image]) -> None:
+        embeddings = []
+        for image in images:
+            image_obj = image if image.mode == "RGB" else image.convert("RGB")
+            emb = self.encoder.encode_mean(image_obj)
+            embeddings.append(emb)
+        self._embeddings = torch.cat(embeddings, dim=0)
+
     def get(self) -> torch.Tensor:
         return self._embeddings
