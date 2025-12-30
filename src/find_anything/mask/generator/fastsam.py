@@ -1,5 +1,5 @@
 import torch
-from fastsam import FastSAM
+from fastsam import FastSAM, FastSAMPrompt
 from PIL import Image
 
 from find_anything.mask.generator.protocol import MaskGenerator
@@ -21,4 +21,5 @@ class FastSAMMaskGenerator(MaskGenerator):
             conf=0.7,
             iou=0.5,
         )
-        return results[0].masks.data  # type: ignore[no-any-return]
+        prompt = FastSAMPrompt(image, results, device=self._device)
+        return prompt.everything_prompt()
