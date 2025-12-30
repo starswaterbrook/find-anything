@@ -18,7 +18,7 @@ dependencies = [
     "ultralytics-thop==2.0.14",
     "xformers==0.0.33.post2",
     "numpy==2.2.6",
-    "fastsam @ git+https://github.com/CASIA-IVA-Lab/FastSAM.git@b4ed20c2fed75eadc5aa7d8b09fedd137b873b52",
+    "segment-anything-fast==0.1.2",
 ]
 
 [project.optional-dependencies]
