@@ -24,8 +24,11 @@ class ZeroShotObjectMatcher:
         self.base_embeddings = base_embeddings
         self.threshold = similarity_threshold
 
-    def set_base_images(self, image_paths: list[str]) -> None:
-        self.base_embeddings.add_images(image_paths)
+    def set_base_images_from_paths(self, image_paths: list[str]) -> None:
+        self.base_embeddings.add_images_from_paths(image_paths)
+
+    def set_base_images(self, images: list[Image.Image]) -> None:
+        self.base_embeddings.add_images(images)
 
     def _open_image(self, image_path: str) -> Image.Image:
         return Image.open(image_path).convert("RGB")

@@ -11,7 +11,7 @@ class BaseEmbeddingRepository(EmbeddingRepository):
         self._embeddings = torch.empty(0)
         self._image_paths: list[str] = []
 
-    def add_images(self, image_paths: list[str]) -> None:
+    def add_images_from_paths(self, image_paths: list[str]) -> None:
         embeddings = []
         for path in image_paths:
             self._image_paths.append(path)
@@ -20,7 +20,7 @@ class BaseEmbeddingRepository(EmbeddingRepository):
             embeddings.append(emb)
         self._embeddings = torch.cat(embeddings, dim=0)
 
-    def add_images_binary(self, images: list[Image.Image]) -> None:
+    def add_images(self, images: list[Image.Image]) -> None:
         embeddings = []
         for image in images:
             image_obj = image if image.mode == "RGB" else image.convert("RGB")
