@@ -1,4 +1,8 @@
 # Find Anything
+[![Python 3.12+](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
+[![Type Checked](https://img.shields.io/badge/type--checked-mypy-blue.svg)](http://mypy-lang.org/)
+[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
+[![MIT License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
 Zero-shot object detection library that finds objects in rich images by matching against reference images. 
 

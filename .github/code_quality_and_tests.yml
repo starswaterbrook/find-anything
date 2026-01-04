@@ -36,6 +36,11 @@ jobs:
           mypy --install-types --non-interactive
           mypy --config-file pyproject.toml ./src
 
-      - name: Run tests
+      - name: Run tests with coverage
         run: |
-          pytest -o log_cli=true .
+          pytest --cov --cov-branch --cov-report=xml -o log_cli=true . 
+
+      - name: Upload coverage reports
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
