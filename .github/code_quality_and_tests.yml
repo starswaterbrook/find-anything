@@ -1,0 +1,41 @@
+name: Check code quality and run tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - '**'
+
+jobs:
+  run-checks:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements-cpu.txt
+          pip install -r requirements-dev.txt
+
+      - name: Check code formatting with ruff
+        run: |
+          ruff check
+          ruff format --check
+
+      - name: Type checking with mypy
+        run: |
+          mypy --install-types --non-interactive
+          mypy --config-file pyproject.toml ./src
+
+      - name: Run tests
+        run: |
+          pytest -o log_cli=true .
