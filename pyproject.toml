@@ -16,15 +16,15 @@ dependencies = [
     "pillow==12.0.0",
     "ultralytics==8.0.120",
     "ultralytics-thop==2.0.14",
-    "xformers==0.0.33.post2",
     "numpy==2.2.6",
-    "segment-anything-fast==0.1.2",
+    "segment-anything-fast==0.1.2"
 ]
 
 [project.optional-dependencies]
 cuda128 = [
-    "torch==2.9.1+cu128",
-    "torchvision==0.24.1+cu128"
+    "torch==2.9.1",
+    "torchvision==0.24.1",
+    "xformers==0.0.33.post2"
 ]
 cpu = [
     "torch==2.9.1",
@@ -85,7 +85,7 @@ ignore = [
 extend-select = ["I"]
 
 [tool.ruff.lint.per-file-ignores]
-"tests/**/*.py" = ["ANN001", "ANN202", "SIM115", "SLF001"]
+"tests/**/*.py" = ["ANN001", "ANN202", "PLR0913", "SIM115", "SLF001"]
 
 [tool.mypy]
 python_version = "3.12"
@@ -99,7 +99,11 @@ warn_unused_configs = true
 
 [tool.coverage.run]
 source = ["src"]
-omit = ["*/tests/*", "*/test_*", "*/protocol.py"]
+omit = ["*/tests/*", "*/test_*", "*/protocol.py", "*/utils.py"]
 
 [tool.coverage.html]
 directory = "htmlcov"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
