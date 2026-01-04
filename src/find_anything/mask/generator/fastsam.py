@@ -22,4 +22,4 @@ class FastSAMMaskGenerator(MaskGenerator):
             iou=0.5,
         )
         prompt = FastSAMPrompt(image, results, device=self._device)
-        return prompt.everything_prompt()
+        return prompt.everything_prompt()  # type: ignore[no-any-return]
