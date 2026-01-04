@@ -14,6 +14,20 @@ pip install find-anything[cuda128] --extra-index-url https://download.pytorch.or
 pip install find-anything[cpu]
 ```
 
+### Warning
+Due to `ultralytics` being broken - FastSAM dependency, outdated for `torch` - you might need to apply a fix if you are seeing this error:
+```
+_pickle.UnpicklingError: Weights only load failed. This file can still be loaded...
+```
+The fix - add `weights_only=False` in  `<venv_path>\site-packages\ultralytics\nn\tasks.py` line 518:
+```python
+# before
+return torch.load(file, map_location='cpu'), file
+# after
+return torch.load(file, map_location='cpu', weights_only=False), file
+```
+Make sure to only load trusted model weights as this bypasses some safety checks.
+
 ## Usage
 ### Basic Example - DINOv2 + FastSAM
 
@@ -90,7 +104,7 @@ graph TD
 
 The first stage processes the entire image once through the encoder to produce a dense feature map where each spatial location has a feature vector. The mask generator simultaneously generates instance segmentation masks for all objects in the scene.
 
-For each mask, features from the dense map are pooled (weighted average) within the masked region to produce a single embedding per candidate object. These pooled embeddings are compared against reference embeddings, and only the best candidates proceed to the next stage.
+For each mask, features from the dense map are pooled within the masked region to produce a single embedding per candidate object. These pooled embeddings are compared against reference embeddings, and only the best candidates proceed to the next stage.
 
 ### Stage 2: Fine Matching (Cropped Patch Encoding)
 
