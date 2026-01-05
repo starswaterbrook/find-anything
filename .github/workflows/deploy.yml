@@ -1,0 +1,52 @@
+name: Deploy to PyPI
+
+on:
+  push:
+    tags:
+      - "dev*"
+      - "v*"
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+    permissions:
+      id-token: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.12"
+
+      - name: Install build dependencies
+        run: pip install build
+
+      - name: Build package
+        run: python -m build
+
+      - name: Determine deployment target
+        id: target
+        run: |
+          TAG="${GITHUB_REF#refs/tags/}"
+          if [[ $TAG == dev* ]]; then
+            echo "index_url=https://test.pypi.org/legacy/" >> $GITHUB_OUTPUT
+            echo "target=TestPyPI" >> $GITHUB_OUTPUT
+          elif [[ $TAG == v* ]]; then
+            echo "index_url=https://upload.pypi.org/legacy/" >> $GITHUB_OUTPUT
+            echo "target=PyPI" >> $GITHUB_OUTPUT
+          else
+            echo "Unknown tag format: $TAG"
+            exit 1
+          fi
+
+      - name: Publish to ${{ steps.target.outputs.target }}
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          repository-url: ${{ steps.target.outputs.index_url }}
