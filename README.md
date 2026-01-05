@@ -51,7 +51,8 @@ device = "cuda"  # or "cpu"
 
 encoder = DinoV2FeatureEncoder(device=device)
 mask_generator = FastSAMMaskGenerator(model_path="FastSAM-x.pt", device=device)
-mask_pooler = DenseFeatureMaskPooler(device=device)
+# Adjust min_mask_area as needed - smaller values allow smaller ROIs
+mask_pooler = DenseFeatureMaskPooler(min_mask_area=1, device=device)
 embedding_repository = BaseEmbeddingRepository(encoder=encoder)
 mask_selector = TopKMaskSelector(base_embeddings=embedding_repository, top_k=5)
 
