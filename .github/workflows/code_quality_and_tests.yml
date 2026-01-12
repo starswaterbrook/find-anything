@@ -25,6 +25,7 @@ jobs:
         run: |
           pip install -r requirements-cpu.txt
           pip install -r requirements-dev.txt
+          pip install git+https://github.com/facebookresearch/segment-anything.git
 
       - name: Check code formatting with ruff
         run: |

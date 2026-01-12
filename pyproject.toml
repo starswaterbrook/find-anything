@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "find-anything"
-version = "1.3.0"
+version = "1.4.0"
 authors = [
     { name = "Maciej Kmieć" }
 ]
@@ -17,6 +17,7 @@ dependencies = [
     "ultralytics==8.0.120",
     "ultralytics-thop==2.0.14",
     "numpy==2.2.6",
+    "torchmetrics==1.8.2",
     "segment-anything-fast==0.1.2"
 ]
 

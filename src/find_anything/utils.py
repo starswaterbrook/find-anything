@@ -12,7 +12,7 @@ def get_object_image_paths(object_name: str, kind: str = "ref") -> list[str]:
     if kind not in allowed:
         raise ValueError(f"kind must be one of {allowed}, got {kind}")  # noqa: TRY003, EM102
 
-    base = Path("objects") / object_name
+    base = Path("dataset") / object_name
     if not base.exists() or not base.is_dir():
         raise FileNotFoundError(f"Object folder not found: {base}")  # noqa: TRY003, EM102
 

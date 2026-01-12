@@ -19,6 +19,13 @@ pip install find-anything[cuda128] --extra-index-url https://download.pytorch.or
 pip install find-anything[cpu]
 ```
 
+For SAM-based mask generators, you need to download the model weights separately, then install `segment_anything` package as follows:
+
+```bash
+pip install git+https://github.com/facebookresearch/segment-anything.git
+```
+
+
 ### Warning
 Due to `ultralytics` being broken - FastSAM dependency, outdated for `torch` - you might need to apply a fix if you are seeing this error:
 ```
